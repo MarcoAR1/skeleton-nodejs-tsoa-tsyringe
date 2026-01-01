@@ -1,9 +1,17 @@
 {
   "rootDir": ".",
   "testEnvironment": "node",
-  "testMatch": ["<rootDir>/src/tests/**/?(*.)test.ts"],
-  "testPathIgnorePatterns": ["node_modules", "dist", "coverage"],
-  "collectCoverageFrom": ["<rootDir>/src/**"],
+  "testMatch": [
+    "<rootDir>/src/tests/**/?(*.)test.ts"
+  ],
+  "testPathIgnorePatterns": [
+    "node_modules",
+    "dist",
+    "coverage"
+  ],
+  "collectCoverageFrom": [
+    "<rootDir>/src/**"
+  ],
   "coveragePathIgnorePatterns": [
     "node_modules",
     "test-config",
@@ -13,6 +21,9 @@
     "<rootDir>/src/infrastructure",
     "swagger.json",
     ".mock.ts"
+  ],
+  "transformIgnorePatterns": [
+    "node_modules/(?!(uuid)/)"
   ],
   "transform": {
     "^.+\\.ts$": [

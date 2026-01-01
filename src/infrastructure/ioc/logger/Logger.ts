@@ -12,10 +12,13 @@ const enumerateErrorFormat = winston.format(info => {
   info.meta = info.meta ? info.meta : {}
   transformed.message = info.message
   transformed.level = info.level
+  transformed.timestamp = info.timestamp
   transformed['x-san-correlationid'] = httpContext.get('correlationId')
   if (info.meta) transformed.fields = info.meta
-  if (info.error)
-    transformed.error = info.error.stack !== null && info.error.stack !== undefined ? info.error.stack : info.error
+  if (info.error) {
+    const error = info.error as any
+    transformed.error = error.stack !== null && error.stack !== undefined ? error.stack : error
+  }
   return transformed
 })
 
@@ -25,7 +28,7 @@ const log = winston.createLogger({
       level: 'debug',
       format: winston.format.combine(
         winston.format.errors({ stack: true }),
-        winston.format.timestamp(),
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         enumerateErrorFormat(),
         winston.format.json()
       )
@@ -44,18 +47,18 @@ export interface ILogger {
 @injectable()
 export class Logger implements ILogger {
   error(messsage: string, error?: any, meta?: any) {
-    log.error(messsage, { error, meta })
+    log.error(messsage, { error, ...meta })
   }
   info(message: any, meta?: any) {
-    log.info(message, meta)
+    log.info(message, { ...meta })
   }
   verbose(message: string, meta?: any) {
-    log.verbose(message, meta)
+    log.verbose(message, { ...meta })
   }
   debug(message: string, meta?: any) {
-    log.debug(message, meta)
+    log.debug(message, { ...meta })
   }
   warn(message: string, meta?: any) {
-    log.warn(message, meta)
+    log.warn(message, { ...meta })
   }
 }

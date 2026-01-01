@@ -1,8 +1,9 @@
-import { FilterQuery, UpdateQuery } from 'mongoose'
+import type { QueryFilter, UpdateQuery } from 'mongoose'
 
 export interface IRead<T> {
-  retrieve: (filter: FilterQuery<T>) => void
+  retrieve: (filter: QueryFilter<T>) => void
   findById: (id: string) => void
+  findByOne: (filters: QueryFilter<T>) => void
 }
 
 export interface IWrite<T> {

@@ -1,4 +1,4 @@
-import { Schema, Model, SchemaDefinition, UpdateQuery, FilterQuery, SortOrder, Expression } from 'mongoose'
+import { Schema, Model, SchemaDefinition, SortOrder, Expression, QueryFilter, UpdateQuery } from 'mongoose'
 import { IRead, IWrite } from '../interface'
 import { MongoConnection } from '../MongoDbConnection'
 
@@ -17,7 +17,7 @@ export abstract class MongoRepositoryBase<TEntity> implements IRead<TEntity>, IW
     }
   }
 
-  public retrieve(filters?: FilterQuery<TEntity>, offset?: number, limit?: number, sort?: SortType) {
+  public retrieve(filters?: QueryFilter<TEntity>, offset?: number, limit?: number, sort?: SortType) {
     let query = this.Model.find()
     if (filters) query = query.where(filters)
     if (sort) query = query.sort(sort)
@@ -30,7 +30,7 @@ export abstract class MongoRepositoryBase<TEntity> implements IRead<TEntity>, IW
     return this.Model.findById(id)
   }
 
-  public findByOne(filters: FilterQuery<TEntity>) {
+  public findByOne(filters: QueryFilter<TEntity>) {
     return this.Model.findOne().where(filters)
   }
 
