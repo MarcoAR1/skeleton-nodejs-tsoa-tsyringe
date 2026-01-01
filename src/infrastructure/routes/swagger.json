@@ -1,4 +1,5 @@
 {
+	"openapi": "3.0.0",
 	"components": {
 		"examples": {},
 		"headers": {},
@@ -34,23 +35,7 @@
 		"description": "Base skeleton for next project in node",
 		"contact": {}
 	},
-	"openapi": "3.0.0",
 	"paths": {
-		"/chat": {
-			"get": {
-				"operationId": "GetChat",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"chat"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
 		"/health/status": {
 			"get": {
 				"operationId": "CheckStatus",
@@ -96,6 +81,21 @@
 						"api_key": []
 					}
 				],
+				"parameters": []
+			}
+		},
+		"/chat": {
+			"get": {
+				"operationId": "GetChat",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"chat"
+				],
+				"security": [],
 				"parameters": []
 			}
 		}
