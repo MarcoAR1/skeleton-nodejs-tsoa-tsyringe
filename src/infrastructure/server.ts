@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { env } from './env/enviroment'
+import { env } from './env/environment'
 import { iocContainer } from './ioc/container'
 import { json, urlencoded } from 'body-parser'
 import { middleware } from 'express-http-context'

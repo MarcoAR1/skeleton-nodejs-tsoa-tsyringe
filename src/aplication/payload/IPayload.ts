@@ -1,3 +1,1 @@
-export interface IPayload<T> {
-  run: () => T
-}
+export * from '../../application/payload/IPayload'
