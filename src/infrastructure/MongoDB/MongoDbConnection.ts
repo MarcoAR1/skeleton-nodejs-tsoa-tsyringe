@@ -1,14 +1,20 @@
-import { Connection, connection, connect } from 'mongoose'
+import { connection, connect } from 'mongoose'
+import { Logger } from '../ioc/logger/Logger'
+import { serverConfig } from '../env/config'
 
-export let MongoConnection!: Connection
+const logger = new Logger()
 
-export const GetMongoDbInstance = async () => {
-  const MONGO_URI = process.env.MONGO_URI
-  if (!MONGO_URI) throw new Error('You must provide a MongoDB connection string')
+/**
+ * Connects to MongoDB using the default Mongoose connection.
+ * Connection is OPTIONAL: if MONGO_URI is not set the app boots without a database,
+ * which lets the skeleton run out of the box.
+ */
+export const connectMongo = async (): Promise<void> => {
+  if (!serverConfig.mongoUri) {
+    logger.warn('[MongoDB] MONGO_URI not set — booting without a database connection')
+    return
+  }
 
-  connection.once('open', () => {
-    console.log('MongoDB connected.')
-  })
-  MongoConnection = (await connect(MONGO_URI)) as unknown as Connection
-  return MongoConnection
+  connection.once('open', () => logger.info('[MongoDB] Connected'))
+  await connect(serverConfig.mongoUri)
 }

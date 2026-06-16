@@ -12,14 +12,16 @@ export const IsString =
       set<T>(value: T) {
         if (typeof value !== 'string') throwBadRequestError(key)
         if (typeof value === 'string' && !value.toString().match(match as string | RegExp)) throwBadRequestError(key)
-        description?.set
-          ? description?.set(value)
-          : Reflect.defineProperty(target, key, {
-              get() {
-                return value
-              },
-              enumerable: true
-            })
+        if (description?.set) {
+          description.set(value)
+        } else {
+          Reflect.defineProperty(target, key, {
+            get() {
+              return value
+            },
+            enumerable: true
+          })
+        }
       },
       configurable: true
     })

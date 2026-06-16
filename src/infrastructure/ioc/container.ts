@@ -1,11 +1,12 @@
 import 'reflect-metadata'
 import { HealthModule } from '../../contexts/health/infrastructure/HealthModule'
-import { ChatModule } from '../../contexts/chat/infrastructure/ChatModule'
+import { ItemModule } from '../../contexts/item/infrastructure/ItemModule'
 import { IocContainer, ServiceIdentifier } from '@tsoa/runtime'
 import { container } from 'tsyringe'
 import { InfrastructureModule } from './InfrastructureModule'
 
-const modules = [InfrastructureModule, HealthModule, ChatModule]
+// InfrastructureModule MUST be first (registers ILogger, HttpClient, etc.)
+const modules = [InfrastructureModule, HealthModule, ItemModule]
 
 modules.forEach(module => new module().run())
 export const iocContainer: IocContainer = {

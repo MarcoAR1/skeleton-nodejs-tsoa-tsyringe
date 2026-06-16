@@ -1,11 +1,10 @@
+import { env } from './environment'
+
+export const serverConfig = {
+  env,
+  nodeEnv: process.env.NODE_ENV || 'local',
+  port: process.env.PORT || '8080',
+  mongoUri: process.env.MONGO_URI || ''
+}
+
 export const JWT_SECRET = process.env.JWT_SECRET || 'MISSING_SECRET'
-export const URL_APM = process.env.URL_APM || ''
-export const INTERACTIONS_URL = process.env.INTERACTIONS || ''
-export const KEY_API_INTERACTIONS = process.env.KEY_API_INTERACTIONS || ''
-export const CHANNELS_URL = process.env.CHANNELS || ''
-export const KEY_API_CHANNELS = process.env.KEY_API_CHANNELS || ''
-export const KEY_API_AGENTS = process.env.KEY_API_AGENTS || ''
-export const AGENTS_URL = process.env.AGENTS || ''
-export const INFRASTRUCTURECORINT_URL = process.env.INFRASTRUCTURECORINT || ''
-export const KEY_API_INFRASTRUCTURECORINT = process.env.KEY_API_INFRASTRUCTURECORINT || ''
-export const ROLE_URL = process.env.ROLE || ''

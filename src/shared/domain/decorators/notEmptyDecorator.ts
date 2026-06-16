@@ -6,14 +6,16 @@ export const NotEmpty = () => (target: object, key: string) => {
     set<T>(value: T) {
       if (!value || ((typeof value === 'string' || Array.isArray(value)) && value.length === 0))
         throw new BadRequestError(`Missing ${key}`)
-      description?.set
-        ? description?.set(value)
-        : Reflect.defineProperty(target, key, {
-            get() {
-              return value
-            },
-            enumerable: true
-          })
+      if (description?.set) {
+        description.set(value)
+      } else {
+        Reflect.defineProperty(target, key, {
+          get() {
+            return value
+          },
+          enumerable: true
+        })
+      }
     },
     configurable: true,
     enumerable: true

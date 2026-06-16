@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { env } from './env/environment'
+import { serverConfig } from './env/config'
 import { iocContainer } from './ioc/container'
 import { json, urlencoded } from 'body-parser'
 import { middleware } from 'express-http-context'
@@ -13,17 +13,17 @@ import handleError from './middlewares/handleError'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express'
-import { SocketSingleton, ControllerClass } from './socket/socket.singleton'
-import { ChatGateway } from '../contexts/chat/entrypoint/chat.gateway'
+import { Logger, ILogger } from './ioc/logger/Logger'
 
 export class Server {
   private readonly port: string
   private readonly SWAGGER_PATH: string = '/api-docs'
   private readonly httpServer: http.Server
-  private readonly socketControllers: ControllerClass[] = [ChatGateway]
+  private readonly logger: ILogger
 
-  constructor(port: string) {
+  constructor(port: string, logger: ILogger = new Logger()) {
     this.port = port
+    this.logger = logger
     const app: Application = Express()
 
     const corsConfiguration: cors.CorsOptions = {
@@ -51,9 +51,6 @@ export class Server {
 
     // Initialize HTTP server
     this.httpServer = http.createServer(app)
-
-    // Initialize and configure socket
-    this.configureSocket()
   }
 
   private configureMiddleware(app: Application, corsConfiguration: cors.CorsOptions): void {
@@ -71,21 +68,15 @@ export class Server {
     app.use(compress())
   }
 
-  private configureSocket(): void {
-    const socketInstance = SocketSingleton.getInstance()
-    socketInstance.initialize(this.httpServer)
-    socketInstance.registerControllers(this.socketControllers)
-  }
-
   public async listen(): Promise<void> {
     await new Promise<void>(resolve => {
       this.httpServer.listen(this.port)
       resolve()
     })
 
-    console.log(`  Skeleton is running at port ${this.port} in ${env} mode`)
-    console.log(`  open swagger in http://localhost:${this.port}${this.SWAGGER_PATH}/`)
-    console.log('  Press CTRL-C to stop\n')
+    this.logger.info(`Server running at port ${this.port} in ${serverConfig.env} mode`)
+    this.logger.info(`Swagger docs at http://localhost:${this.port}${this.SWAGGER_PATH}/`)
+    this.logger.info('Press CTRL-C to stop')
   }
 
   public async stop(): Promise<void> {

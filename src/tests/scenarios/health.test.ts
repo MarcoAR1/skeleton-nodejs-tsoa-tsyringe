@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import httpStatus from 'http-status'
 import supertest from 'supertest'
 import { HealthStatusMock } from '../mocks/HealthStatus.mock'

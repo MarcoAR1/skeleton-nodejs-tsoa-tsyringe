@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "types": ["reflect-metadata", "jest", "node"],
+    "types": ["reflect-metadata", "node"],
     "esModuleInterop": true,
     "target": "es2021",
     "noImplicitAny": true,

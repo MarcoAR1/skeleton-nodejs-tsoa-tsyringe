@@ -1,24 +1,14 @@
-import { Controller, Route, Get, Tags, Security } from 'tsoa'
+import { Controller, Route, Get, Tags } from 'tsoa'
 import { HealthStatus } from '../domain/HealthStatus'
 import { injectable, singleton } from 'tsyringe'
 
 @injectable()
 @singleton()
-@Tags('health status')
+@Tags('Health')
 @Route('/health')
 export class HealthController extends Controller {
-  constructor() {
-    super()
-  }
-
   @Get('/status')
-  public async checkStatus() {
-    return new HealthStatus()
-  }
-
-  @Security('api_key')
-  @Get('/health')
-  public async checkHealth() {
+  public async checkStatus(): Promise<HealthStatus> {
     return new HealthStatus()
   }
 }
